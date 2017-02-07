@@ -1,23 +1,24 @@
-<pre>
-Vanitygen plus!
+Vanitygen plus
+==============
 
-Forked from samr7/vanitygen ,
-then modified to support Many Alt-Coins!
-with the following changes:
+Forked from exploitagency/vanitygen-plus and fixed the Makefile to support OS X Sierra.
+This is a modified version of samr7/vanitygen with support to many Alt-Coins.
 
-+Generate vanity addresses for 80+ coins!
-+I also removed the prefix length limit, now capable of searching for a whole address.
-So technically this is capable of brute forcing a complete address if you have trillions of years to waste.
-+Manually merge changes from: cryptapus For -Y privkey values
-+Manually merge changes from: elichai For keyconv decrypt
-+Manually merge changes from: salfter For compressed key support
-+Manually merge changes from: WyseNynja For oclvanityminer updates
-+Manually merge changes from: Rytiss For Initialize bn_zero to allow Intel CPU OpenCL compilation
-+Manually merge changes from: fizzisist For Document -P option
-+Manually merge changes from: bitkevin For fix hd 68/69xx, 7xxx 
-+Manually merge changes from: wolf9466 For Groestlcoin addresses
+Change log
+----------
 
-WARNING! This program has not been thoroughly tested.  Please attempt importing an address first.
+* Generate vanity addresses for 80+ coins!
+* Removed the prefix length limit, now capable of searching for a whole address. Technically this is capable of brute forcing a complete address if you have trillions of years to waste.
+* Manually merge changes from: cryptapus For -Y privkey values
+* Manually merge changes from: elichai For keyconv decrypt
+* Manually merge changes from: salfter For compressed key support
+* Manually merge changes from: WyseNynja For oclvanityminer updates
+* Manually merge changes from: Rytiss For Initialize bn_zero to allow Intel CPU OpenCL compilation
+* Manually merge changes from: fizzisist For Document -P option
+* Manually merge changes from: bitkevin For fix hd 68/69xx, 7xxx
+* Manually merge changes from: wolf9466 For Groestlcoin addresses
+
+WARNING! This program has not been thoroughly tested. Please attempt importing an address first.
 Send a tiny amount you don't mind losing to the address.  Then perform a test spend.
 I will not be held liable for lost funds as a result of the use of this program.
 Also do not use this program for nefarious purposes!  I do not condone illegal activity.
@@ -26,73 +27,79 @@ The chances of actually brute forcing an address is nearly impossible anyways.
 Be sure to report any issues or bugs and fixes, I am happy to accept pull requests!
 If you have an altcoin you would like to add please let me know.
 
-------
-Getting Started
-------
+Getting started
+---------------
 See this link for more detailed instructions on compiling from source:
 https://legacysecuritygroup.com/index.php/projects/recent/12-software/35-oclvanitygen-compiling-and-use
 
 A Linux binary is included. (Compiled on 64bit Debian Testing)
 
 NOTE: All arguments are case sensitive!
-Using GPU(oclvanitygen) requires correct drivers be installed openCL and appropriate dependencies.
-See above link for list of said dependencies for oclvanitygen.
-This may take some fiddling depending on your distro.
-Link above works for Kali Rolling and can be adopted for other distros.
+Using GPU (`oclvanitygen`) requires correct drivers be installed openCL and appropriate dependencies.
+See above link for list of said dependencies for `oclvanitygen`.
+This may take some fiddling depending on your distribution.
+Link above works for Kali Rolling and can be adopted for other distributions.
 If using CPU only the guide below should suffice.
 
 Downloading:
+```
 apt-get install git
 git clone https://github.com/exploitagency/vanitygen-plus.git
 cd vanitygen-plus
 cd linux-binary
+```
 
 Now get a list of the Coins with:
+```
 ./vanitygen -C LIST
+```
 
 Choose your coin.
 
+```
 "./vanitygen -C LBRY -o results.txt -k bTEST"
 "-C LBRY" : Chooses the LBRY coin
 "-o results.txt" : saves the matches to results.txt
 "-k" : keep going even after match is found
 "bTEST" : the address you are searching for
+```
 
 Example output:
+```
 Generating LBRY Address
 Difficulty: 4553521
 Pattern: bTEST                                                                 
 Address: bTEST6jSVcid5MQAJBrGUR6MLDpdyb8oiQ
 Privkey: wrRxctq3f7A1zkpyWoZRifRk5eAC2UM9idh83SPLhz6gAFfqdL
-------
-END Getting Started
-------
+```
 
--------
-Fix libcrypto.so.1.0.2 error(Debian, Ubuntu)
--------
+Troubleshooting
+---------------
+
+Fix libcrypto.so.1.0.2 error (Debian, Ubuntu):
+```
 ./vanitygen: error while loading shared libraries: libcrypto.so.1.0.2: cannot open shared object file: No such file or directory
+```
 
+```
 wget http://ftp.us.debian.org/debian/pool/main/g/glibc/libc6-udeb_2.24-9_amd64.udeb
 dpkg -i libc6-udeb_2.24-9_amd64.udeb
 wget http://ftp.us.debian.org/debian/pool/main/o/openssl1.0/libcrypto1.0.2-udeb_1.0.2k-1_amd64.udeb
 dpkg -i libcrypto1.0.2-udeb_1.0.2k-1_amd64.udeb
 rm libc6-udeb_2.24-9_amd64.udeb
 rm libcrypto1.0.2-udeb_1.0.2k-1_amd64.udeb
--------
-END Fix libcrypto.so.1.0.2 error(Debian, Ubuntu)
--------
+```
 
-------
-Encrypting and Decrypting a vanitygen private key
-------
-
+Encrypting and decrypting private key
+-------------------------------------
+```
 ./vanitygen -C AC Aa -E 5
 "-C AC Aa" Choose coin AC and address prefix "Aa"
 "-E 5" Encrypt key with password as "5",
-more secure to use option "-e" with no trailing password,
-then vanitygen prompts for a password so theres no command history.
+```
+More secure to use option `-e` with no trailing password, then `vanitygen` prompts for a password so theres no command history.
 
+```
 Generating AC Address
 Difficulty: 23
 Estimated password crack time: >1 seconds
@@ -101,25 +108,28 @@ WARNING: Protecting private keys with weak password
 Pattern: Aa                                                                    
 Address: Aa853vQs6QGrTuTHb7Q45tbeB8n4EL47vd
 Protkey: yTYFUWAsgFmMxCbKtu3RdrrJXosZrjxiQFA2o43neB4jPpfLe5owNNrteTs8mpvua8Ge
+```
 
-Now refer to the list address-x-y-value-for-keyconv.txt and pick your -X and -Y values.
+Now refer to the list `address-x-y-value-for-keyconv.txt` and pick your -X and -Y values.
+```
 Ticker 	: Coin 			: Address Prefix 	: -X Value 	: -Y Value
 ---------------
 AC 	: Asiacoin 		: A			: 23	<---	: 151 <---
 For AC(Asiacoin) these values are 23 and 151.
+```
 
+```
 ./keyconv -X 23 -Y 151 -d yTYFUWAsgFmMxCbKtu3RdrrJXosZrjxiQFA2o43neB4jPpfLe5owNNrteTs8mpvua8Ge
 "-X 23 -Y 151" Specifies coin configuration
 "-d" for decrypt and protected key of "yTYFUWAsgFmMxCbKtu3RdrrJXosZrjxiQFA2o43neB4jPpfLe5owNNrteTs8mpvua8Ge"
 Enter import password: 5 <--- Enter "5" or whatever you specified as password and press enter
 Address: Aa853vQs6QGrTuTHb7Q45tbeB8n4EL47vd
 Privkey: 66GRP2W5H4sWbgrBRAuPc3qZxUtP5boubJ9N2M5wZio6fhWjzbr
-------
-END Encrypting and Decrypting a vanitygen private key
-------
+```
 
-Current List of Available Coins for Address Generation
----------------------------------------------------
+Current list of available coins for address generation
+------------------------------------------------------
+```
 Argument(UPPERCASE) : Coin : Address Prefix
 ---------------
 42 : 42coin : 4
@@ -205,18 +215,6 @@ XPM : Primecoin : A
 YAC : Yacoin : Y
 ZOOM : Zoom coin : i
 ZRC : Ziftrcoin : Z
+```
 
-If you found this repo useful, please consider a donation.  Thank You!
-
-Donate Bitcoin: 1egacySQXJA8bLHnFhdQQjZBLW1gxSAjc
-Donate Zcash or Zclassic: t1egacynGZDT9mTfmMSCG1yCaedq7bGTs1a
-Z-Address: zcashPngjXyQJUjePXH6wvg2vfHHngaZiYLmmDE2bp3PqMAPpErdfpbctug78P6m8xqKXyxX1dmfCYoUeJYfX8hDLSueuKL
-Donate Ethereum or Ethereum Classic: 0x1337aeb726eee1a51fc3b22a7eafa329d950297a
-Donate LBRY: bLEGACYsaVR11r9qp6bXnWeWtpf7Usx9rX
-Donate Litecoin: LegacyeBuSwLaZaF5QLMiJL8E4rNCH6tJ7
-Donate Namecoin: N1egacyRAKumMKiFaVrTqwzmdkJVL9mNDs
-Donate Feathercoin: 71egacyuSdmPUMM3EKp4dw8yBgTruKhKZc
-Donate Vertcoin: Vry1337ZVSFftzLWvBkEhf787HAXAqyupJ
-Donate Monacoin: MMMMMM6JDVfedPQw9DGTmDhEmFLrnBzNZs
-Donate Dash: XxXXXxxx4jGY5cjhHH7921c1cv2hfvALRw
-</pre>
+If you found this repo useful, please consider a donation to the original author at exploitagency/vanitygen-plus.
